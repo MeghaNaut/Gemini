@@ -18,7 +18,7 @@ const Main = () => {
     } = useContext(Context);
 
     const { theme } = useContext(ThemeContext);
-    const { listening, setListening, transcript } = useContext(SpeechRecognitionContext);
+    const { listening, setListening, transcript, isSpeechRecognitionAvailable } = useContext(SpeechRecognitionContext);
 
     useEffect(() => {
         if (transcript) {
@@ -55,24 +55,24 @@ const Main = () => {
                 ) : (
                     <>
                         <div className="greet">
-                            <p><span>Hello, Friend.</span></p>
+                            <p><span>Hello, Friends.</span></p>
                             <p>How can I help you today?</p>
                         </div>
-                        <div className="cards">
-                            <div className="card">
+                        <div className="cards" >
+                            <div className="card" onClick={() => onSent('Suggest beautiful places to see on an upcoming road trip')}>
                                 <p>Suggest beautiful places to see on an upcoming road trip</p>
                                 <img src={assets.compass_icon} alt="" />
                             </div>
-                            <div className="card">
+                            <div className="card" onClick={() => onSent('Briefly summarize this concept: urban planning')}>
                                 <p>Briefly summarize this concept: urban planning</p>
                                 <img src={assets.bulb_icon} alt="" />
                             </div>
-                            <div className="card">
+                            <div className="card" onClick={() => onSent('Brainstorm team bonding activities for our work retreat')}>
                                 <p>Brainstorm team bonding activities for our work retreat</p>
                                 <img src={assets.message_icon} alt="" />
                             </div>
-                            <div className="card">
-                                <p>Improve the readability of the following code</p>
+                            <div className="card" onClick={() => onSent('Teach React js to us')}>
+                                <p>Teach React js to us</p>
                                 <img src={assets.code_icon} alt="" />
                             </div>
                         </div>
@@ -88,13 +88,15 @@ const Main = () => {
                             placeholder='Enter a prompt here'
                         />
                         <div>
-                            <img
-                                src={assets.mic_icon}
-                                width={30}
-                                alt=""
-                                onClick={() => setListening(!listening)}
-                                style={{ cursor: 'pointer', color: listening ? 'red' : 'black' }}
-                            />
+                            {isSpeechRecognitionAvailable && (
+                                <img
+                                    src={assets.mic_icon}
+                                    width={30}
+                                    alt=""
+                                    onClick={() => setListening(!listening)}
+                                    style={{ cursor: 'pointer', color: listening ? 'red' : 'black' }}
+                                />
+                            )}
                             {input && <img onClick={() => onSent()} src={assets.send_icon} width={30} alt="" />}
                         </div>
                     </div>
